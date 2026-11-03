@@ -16,4 +16,16 @@ export class ProdutosService {
     this.categoriasRepo = categoriasRepository; // para checar se a categoria existe
   }
   // TODO: criar(dados), listar().
+
+
+  async criar(dados) {
+    const categoria = await this.categoriasRepo.buscarPorId(dados.categoriaId);
+    if (!categoria) throw new AppError('O produto deve conter uma categoria valida', 400);
+    this.repo.criar(dados)
+  }
+
+
+  async listar(){
+     return this.repo.listar()
+  }
 }

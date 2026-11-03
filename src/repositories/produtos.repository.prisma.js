@@ -9,4 +9,18 @@ import { prisma } from '../config/database.js';
 // Dica: use `prisma.produto.*`. Tudo é assíncrono.
 export class ProdutosRepositoryPrisma {
   // TODO: implemente os métodos descritos acima.
+
+
+  async listar() {
+    return prisma.produto.findMany({
+      orderBy: { criadoEm: 'desc' },
+      include: { categoria: true }
+    });
+  }
+
+  async criar(dados) {
+    return prisma.produto.create({ data: dados })
+  }
+
+
 }

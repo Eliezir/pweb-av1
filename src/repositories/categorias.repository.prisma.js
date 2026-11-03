@@ -7,5 +7,20 @@ import { prisma } from '../config/database.js';
 //   - criar uma categoria.
 // Dica: use `prisma.categoria.*`. Tudo é assíncrono.
 export class CategoriasRepositoryPrisma {
-  // TODO: implemente os métodos descritos acima.
+
+
+  async listar() {
+    return prisma.categoria.findMany({
+      orderBy: { criadoEm: 'desc' },
+    });
+  }
+
+  async buscarPorId(id) {
+    return prisma.categoria.findUnique({ where: { id } })
+  }
+
+  async criar(dados) {
+    return prisma.categoria.create({ data: dados })
+  }
+
 }

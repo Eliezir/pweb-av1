@@ -14,4 +14,38 @@ export class ProdutosController {
     // Dica: "amarre" o this dos métodos usados como callback nas rotas.
   }
   // TODO: implemente index, novo, criar.
+
+
+  async listar(_req, res, next) {
+    try {
+      const produtos = await this.service.listarTodos();
+      res.render('produtos/index', { titulo: 'Produtos', produtos });
+    } catch (err) { next(err); }
+  }
+
+  async novo(_req, res) {
+    res.render('produtos/new', {
+      titulo: 'Novo Produto',
+      erros: [],
+      dados: {}
+    })
+  }
+
+  async create(req, res, next) {
+    try {
+      await this.service.criar(req.body);
+      res.redirect('/produtos');
+    } catch (err) {
+      if (err.statusCode < 500) {
+        return res.status(err.statusCode).render('produtos/new', {
+          titulo: 'Novo Produto',
+          erros: [err.message],
+          dados: req.body,
+        });
+      }
+      next(err);
+
+    }
+  }
+
 }

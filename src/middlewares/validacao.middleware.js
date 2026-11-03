@@ -15,3 +15,29 @@
 // TODO: export const regrasCategoria = [...]
 // TODO: export const regrasProduto = [...]
 // TODO: export function verificar(view, montarDadosDaView) { ... }
+
+
+export const validarCriacaoCategoria = (req, res, next) => {
+    const { nome } = req.body;
+
+    if (!nome || typeof nome !== 'string') {
+        return res.status(400).json({ erro: 'Nome inválido' });
+    }
+
+    next();
+}
+
+export const validarCriacaoProduto = (req, res, next) => {
+    const {nome, preco, categoriaId} = req.body;
+
+        if (!nome || typeof nome !== 'string') {
+        return res.status(400).json({ erro: 'Nome inválido' });
+    }
+
+    if(!preco || preco < 0) {
+        return res.status(400).json({ erro: 'Preço inválido'})
+    }
+
+    if(!categoriaId) return res.status(400).json({ erro: 'Categoria inválida' });
+
+}
